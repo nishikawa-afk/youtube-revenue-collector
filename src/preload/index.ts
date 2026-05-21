@@ -15,7 +15,8 @@ const api: RendererAPI = {
     listFromYoutube: (email) => ipcRenderer.invoke('channels:listFromYoutube', email),
     listRegistered: () => ipcRenderer.invoke('channels:listRegistered'),
     register: (params) => ipcRenderer.invoke('channels:register', params),
-    setActive: (id, isActive) => ipcRenderer.invoke('channels:setActive', id, isActive)
+    setActive: (id, isActive) => ipcRenderer.invoke('channels:setActive', id, isActive),
+    addManual: (params) => ipcRenderer.invoke('channels:addManual', params)
   },
   fetch: {
     runNow: (params) => ipcRenderer.invoke('fetch:runNow', params),

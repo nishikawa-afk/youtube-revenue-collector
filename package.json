@@ -1,6 +1,6 @@
 {
   "name": "youtube-revenue-collector",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "YouTube収益データを毎日自動取得してkeiei Supabaseに送信するデスクトップアプリ (Mac/Windows)",
   "main": "./out/main/index.js",
   "author": "afc consulting",
@@ -19,7 +19,6 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
     "electron-store": "^8.2.0",
-    "googleapis": "^144.0.0",
     "node-cron": "^3.0.3",
     "ws": "^8.20.1"
   },

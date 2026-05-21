@@ -84,6 +84,15 @@ export type RendererAPI = {
       caseId?: string | null
     }) => Promise<YoutubeChannel>
     setActive: (id: string, isActive: boolean) => Promise<void>
+    // Studio Manager 経由のチャンネルを URL/ID から手動追加
+    addManual: (params: {
+      accountEmail: string
+      input: string
+      caseId?: string | null
+    }) => Promise<
+      | { ok: true; channel: YoutubeChannel }
+      | { ok: false; error: string }
+    >
   }
   // Fetch
   fetch: {

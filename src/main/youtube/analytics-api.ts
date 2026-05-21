@@ -135,3 +135,35 @@ export async function getDailyMetrics(params: {
     raw: row
   }))
 }
+
+/**
+ * 指定したチャンネルに対して analytics クエリ可能かを軽量検証する。
+ * 直近1日 (yesterday) のメトリクスを1指標だけ取って 200 が返れば権限あり。
+ * 403 → Manager 権限なし、404 → チャンネル不存在、その他 → エラー。
+ */
+export async function verifyChannelAccess(
+  accountEmail: string,
+  youtubeChannelId: string
+): Promise<{ ok: true } | { ok: false; status: number; reason: string }> {
+  const accessToken = await getAccessToken(accountEmail)
+  const yesterday = new Date()
+  yesterday.setUTCDate(yesterday.getUTCDate() - 1)
+  const ymd = yesterday.toISOString().slice(0, 10)
+
+  const url = new URL('https://youtubeanalytics.googleapis.com/v2/reports')
+  url.searchParams.set('ids', `channel==${youtubeChannelId}`)
+  url.searchParams.set('startDate', ymd)
+  url.searchParams.set('endDate', ymd)
+  url.searchParams.set('metrics', 'views')
+
+  const resp = await fetch(url.toString(), {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  })
+  if (resp.ok) return { ok: true }
+  let reason = `HTTP ${resp.status}`
+  try {
+    const body = await resp.text()
+    reason = body.slice(0, 200)
+  } catch {}
+  return { ok: false, status: resp.status, reason }
+}
