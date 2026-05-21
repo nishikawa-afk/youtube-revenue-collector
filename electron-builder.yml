@@ -1,0 +1,41 @@
+appId: jp.afcconsulting.youtube-revenue-collector
+productName: YouTube Revenue Collector
+copyright: Copyright © 2026 afc consulting
+
+directories:
+  buildResources: resources
+  output: dist
+
+files:
+  - "!**/.vscode/*"
+  - "!src/*"
+  - "!electron.vite.config.{ts,js,mjs,cjs}"
+  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+  - "!{.eslintrc.cjs,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md}"
+  - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
+
+asarUnpack:
+  - resources/**
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  category: public.app-category.business
+  hardenedRuntime: false
+  gatekeeperAssess: false
+  identity: null # 未署名
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  artifactName: ${productName}-${version}-setup.${ext}
+
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
