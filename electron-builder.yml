@@ -13,6 +13,10 @@ files:
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
   - "!{.eslintrc.cjs,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md}"
   - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
+  - "!dist-old-*/**"
+  - "!dist-old-*"
+  - "!*.log"
+  - "!.DS_Store"
 
 asarUnpack:
   - resources/**

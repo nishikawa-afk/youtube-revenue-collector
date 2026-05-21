@@ -195,6 +195,7 @@ export async function startAddAccountFlow(): Promise<{
   email: string
   displayName: string | null
   idToken: string
+  refreshToken: string | null
 }> {
   const { id } = clientCreds()
   const verifier = genVerifier()
@@ -237,7 +238,12 @@ export async function startAddAccountFlow(): Promise<{
       console.warn('[oauth] refresh_token not returned for', email)
     }
 
-    return { email, displayName: claims.name ?? null, idToken: tokens.id_token }
+    return {
+      email,
+      displayName: claims.name ?? null,
+      idToken: tokens.id_token,
+      refreshToken: tokens.refresh_token ?? null
+    }
   } finally {
     server.close()
   }

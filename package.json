@@ -1,6 +1,6 @@
 {
   "name": "youtube-revenue-collector",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "YouTube収益データを毎日自動取得してkeiei Supabaseに送信するデスクトップアプリ (Mac/Windows)",
   "main": "./out/main/index.js",
   "author": "afc consulting",
