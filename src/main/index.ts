@@ -4,6 +4,10 @@ import { registerIpcHandlers } from './ipc'
 import { initScheduler } from './scheduler'
 import { loadStoredSession } from './supabase/auth'
 import { runDailyFetch } from './fetcher'
+import {
+  startChannelRealtimeSync,
+  stopChannelRealtimeSync
+} from './supabase/channelRealtimeSync'
 
 const isDev = !app.isPackaged
 
@@ -45,6 +49,13 @@ app.whenReady().then(async () => {
   await loadStoredSession().catch((e) => console.warn('[main] loadStoredSession:', e))
   initScheduler()
 
+  // ダッシュボードから新規 ch が登録されたとき、自動的に accessible_channel_ids を再同期する
+  try {
+    startChannelRealtimeSync()
+  } catch (e) {
+    console.warn('[main] startChannelRealtimeSync:', (e as Error).message)
+  }
+
   const win = createMainWindow()
 
   app.on('activate', () => {
@@ -61,5 +72,6 @@ app.whenReady().then(async () => {
 })
 
 app.on('window-all-closed', () => {
+  stopChannelRealtimeSync()
   if (process.platform !== 'darwin') app.quit()
 })
